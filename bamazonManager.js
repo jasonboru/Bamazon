@@ -32,7 +32,7 @@ function managerMenu(){
 					delay = setTimeout(managerMenu, 1500);
 					break;
 				case "View Low Stock Items":
-					printLowQuantity();
+					showLowStock();
 					break;
 				case "Change Stock Levels":
 					showItemTable();
@@ -66,11 +66,11 @@ function showItemTable() {
     });
 };
 
-function printLowQuantity() {
+function showLowStock() {
     connection.query('SELECT * from products', function(err, results) {
         if (err) throw err;
         var table = new Table({
-            head: ['item_id', 'product_name', 'price', 'stock_quantity']
+            head: ['id', 'item', 'price', 'quantity']
         });
         for (var i = 0; i < results.length; i++){
         	if(results[i].stock_quantity < 5) {

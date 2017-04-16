@@ -74,10 +74,25 @@ function customerBuy(){
 					connection.query('UPDATE products SET ? WHERE item_id=?', [{stock_quantity: stock_quantity}, itemID], function(err, results){
 						if (err) throw err;
 					});
-					showItemTable();
+          inquirer.prompt([
+            {
+              type: "confirm",
+              message: "Would you like to order another item?",
+              name: "yesOrNo",
+              default: true
+            }
+          ]).then(function(data) {
+					       if (data.yesOrNo) {
+                   showItemTable();
+                   delay = setTimeout(customerBuy, 1500);
+                 } else {
+                   console.log("Thank you for using Bamazon")
+                   process.exit(0);
+                 }
+          });
 
 				}
-        delay = setTimeout(customerBuy, 1500);
+
 			});
 		});
 }
