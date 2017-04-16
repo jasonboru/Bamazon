@@ -15,7 +15,7 @@ var delay;
 
 connection.connect(function(err) {
     if (err) throw err;
-    console.log("You are connected");
+    //console.log("You are connected");
 });
 
 function showItemTable() {
@@ -39,7 +39,7 @@ function customerBuy(){
 	inquirer.prompt([
 			{
 			  type: 'input',
-			  message: 'What is the id of the item you would like to purchase?',
+			  message: 'What is the id # of the item you would like to purchase?',
 			  name: 'itemID',
         validate: function(value) {
           if (isNaN(value) === false) {
@@ -83,3 +83,5 @@ function customerBuy(){
 }
 
 delay = setTimeout(customerBuy, 1500);
+
+exports.showItemTable = showItemTable;
