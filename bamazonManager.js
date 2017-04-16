@@ -12,7 +12,6 @@ var connection = mysql.createConnection({
     database: "Bamazon"
 });
 
-var delay;
 var storeName = colors.yellow("Bamazon Hydroponics");
 var tagline = colors.yellow("Manager Portal");
 
@@ -45,14 +44,14 @@ function managerMenu(){
 			switch(results.options){
 				case "View Active Items for Sale":
 				  showItemTable();
-					delay = setTimeout(managerMenu, 1500);
+					setTimeout(managerMenu, 1500);
 					break;
 				case "View Low Stock Items":
 					showLowStock();
 					break;
 				case "Change Stock Levels":
 					showItemTable();
-					delay = setTimeout(changeStockQty, 500);
+					setTimeout(changeStockQty, 500);
 					break;
 				case "Add New Item":
 					addNewItem();
@@ -137,7 +136,7 @@ function changeStockQty() {
 							console.log("\n Stock has been updated. New Item list printing...");
 							setTimeout(showItemTable, 1500);
 							console.log("");
-							delay = setTimeout(managerMenu, 3000);
+							setTimeout(managerMenu, 3000);
 						}
 			});
 
@@ -180,7 +179,8 @@ function addNewItem(){
 				if(err) throw err;
 			});
 			if (item_name && price && stock_quantity && department_name !== undefined) {
-				delay = setTimeout(managerMenu, 1000);
+        setTimeout(showItemTable, 500)
+				setTimeout(managerMenu, 1500);
 			}
 
 		});
