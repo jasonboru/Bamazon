@@ -1,6 +1,7 @@
-var mysql = require("mysql");
-var Table = require("cli-table");
-var inquirer = require("inquirer");
+const mysql = require("mysql");
+const Table = require("cli-table");
+const inquirer = require("inquirer");
+const colors = require('colors');
 const keys = require("./keys.js");
 
 var connection = mysql.createConnection({
@@ -12,17 +13,33 @@ var connection = mysql.createConnection({
 });
 
 var delay;
+var storeName = colors.yellow("Bamazon Hydroponics");
+var tagline = colors.yellow("Customer Portal");
 
 connection.connect(function(err) {
     if (err) throw err;
     //console.log("You are connected");
 });
 
+function logTitle() {
+	console.log("");
+	console.log(colors.green('_______________________________________________________________________________________________________'));
+	console.log("");
+	var tildas = colors.cyan('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+	console.log(`${tildas} ${storeName} ${tagline} ${tildas}`);
+	console.log("");
+	console.log(colors.green('_______________________________________________________________________________________________________'));
+	console.log("");
+}
+
+logTitle();
+
 function showItemTable() {
     connection.query('SELECT * FROM products', function(err, results) {
             if (err) throw err;
             var table = new Table({
-                head: ['id', 'item', 'price', 'quantity']
+                head: [colors.cyan('id'), colors.cyan('item'), colors.cyan('price'), colors.cyan('quantity')],
+                colWidths: [5, 75, 8, 10]
             });
             for (var i = 0; i < results.length; i++){
             table.push(
@@ -30,6 +47,8 @@ function showItemTable() {
                 (JSON.parse(JSON.stringify(results))[i]["price"]), (JSON.parse(JSON.stringify(results))[i]["stock_quantity"])]);
   			}
         console.log("\n" + table.toString());
+        console.log(colors.green('_______________________________________________________________________________________________________'));
+        console.log("");
     });
 }
 
@@ -67,10 +86,11 @@ function customerBuy(){
 				if (err) throw err;
 				var stock_quantity = results[0].stock_quantity;
 				if (stock_quantity < quantity) {
-					console.log("Sorry, we don't have the stock to fill that request. Please order at or below the quantity listed");
+					console.log(colors.red("Sorry, we don't have the stock to fill that request. Please order at or below the quantity listed"));
+          setTimeout(customerBuy, 1000);
 				} else{
 					stock_quantity -= quantity;
-					console.log("Your total price is - " + quantity * results[0].price);
+					console.log(colors.cyan("Your total price is - $" + (quantity * results[0].price).toFixed(2)));
 					connection.query('UPDATE products SET ? WHERE item_id=?', [{stock_quantity: stock_quantity}, itemID], function(err, results){
 						if (err) throw err;
 					});
@@ -84,19 +104,17 @@ function customerBuy(){
           ]).then(function(data) {
 					       if (data.yesOrNo) {
                    showItemTable();
-                   delay = setTimeout(customerBuy, 1500);
+                   setTimeout(customerBuy, 1500);
                  } else {
-                   console.log("Thank you for using Bamazon")
+                   console.log(colors.green("Thank you for using Bamazon"))
                    process.exit(0);
                  }
           });
-
 				}
-
 			});
 		});
 }
 
-delay = setTimeout(customerBuy, 1500);
+setTimeout(customerBuy, 1500);
 
 exports.showItemTable = showItemTable;

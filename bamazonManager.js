@@ -1,6 +1,7 @@
-var mysql = require("mysql");
-var Table = require("cli-table");
-var inquirer = require("inquirer");
+const mysql = require("mysql");
+const Table = require("cli-table");
+const inquirer = require("inquirer");
+const colors = require('colors');
 var keys = require("./keys.js");
 
 var connection = mysql.createConnection({
@@ -12,10 +13,25 @@ var connection = mysql.createConnection({
 });
 
 var delay;
+var storeName = colors.yellow("Bamazon Hydroponics");
+var tagline = colors.yellow("Manager Portal");
 
 connection.connect(function(err) {
     if (err) throw err;
 });
+
+function logTitle() {
+	console.log("");
+	console.log(colors.red('_______________________________________________________________________________________________________'));
+	console.log("");
+	var tildas = colors.cyan('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+	console.log(`${tildas} ${storeName} ${tagline} ${tildas}`);
+	console.log("");
+	console.log(colors.red('_______________________________________________________________________________________________________'));
+	console.log("");
+}
+
+logTitle();
 
 function managerMenu(){
 	inquirer.prompt([
@@ -55,7 +71,8 @@ function showItemTable() {
     connection.query('SELECT * from products', function(err, results) {
             if (err) throw err;
             var table = new Table({
-                head: ['id', 'item', 'price', 'quantity']
+                head: ['id', 'item', 'price', 'quantity'],
+                colWidths: [5, 75, 8, 10]
             });
             for (var i = 0; i < results.length; i++){
             table.push(
@@ -63,6 +80,8 @@ function showItemTable() {
 								(JSON.parse(JSON.stringify(results))[i]["price"]), (JSON.parse(JSON.stringify(results))[i]["stock_quantity"])]);
   			}
         console.log("\n" + table.toString());
+        console.log(colors.red('_______________________________________________________________________________________________________'));
+        console.log("");
     });
 };
 
@@ -70,7 +89,8 @@ function showLowStock() {
     connection.query('SELECT * from products', function(err, results) {
         if (err) throw err;
         var table = new Table({
-            head: ['id', 'item', 'price', 'quantity']
+            head: ['id', 'item', 'price', 'quantity'],
+            colWidths: [5, 75, 8, 10]
         });
         for (var i = 0; i < results.length; i++){
         	if(results[i].stock_quantity < 5) {
@@ -80,6 +100,8 @@ function showLowStock() {
 	  		}
 		}
         console.log("\n" + table.toString());
+        console.log(colors.red('_______________________________________________________________________________________________________'));
+        console.log("");
     });
 		delay = setTimeout(managerMenu, 1000);
 };
@@ -90,7 +112,7 @@ function changeStockQty() {
 	inquirer.prompt([
 		{
 		  type: 'input',
-		  message: '\n What is the id # of the product you want to add?',
+		  message: 'What is the id # of the item you want to adjust stock on?',
 		  name: 'product'
 		},
 		{
@@ -157,7 +179,7 @@ function addNewItem(){
 			connection.query('INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES (?, ?, ?, ?)', [item_name, department_name, price, stock_quantity], function(err, results){
 				if(err) throw err;
 			});
-			if (product_name && price && stock_quantity && department_name !== undefined) {
+			if (item_name && price && stock_quantity && department_name !== undefined) {
 				delay = setTimeout(managerMenu, 1000);
 			}
 
