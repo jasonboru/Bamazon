@@ -6,18 +6,10 @@
 
 In this activity, I created an Amazon-like storefront with the MySQL methods I've learned in the last week. The app takes in orders from customers and depletes stock from the store's inventory. As a bonus task, I programed the app to track product sales across the store's departments and then provides a summary of the highest-grossing departments in the store.
 
-Make sure you save and require the MySQL and Prompt npm packages in your homework files--your app will need them for data input and storage.
-
-### Submission Guide
-
-Make sure you use the normal GitHub and Heroku process. This time, though, you need to include screenshots and/or a video showing us that you got the app working with no bugs. You can include these screenshots or a link to a video in a `README.md` file.
-
-If you haven't written a markdown file yet, [click here for a rundown](https://guides.github.com/features/mastering-markdown/), or just take a look at the raw file of these instructions.
-
 ## Installation Instructions
 
 1. Fork this repo and clone the forked repo to your computer.
-2. Run `npm install`, this will install the npm dependencies from the package,json file.
+2. Run `npm install`, this will install the npm dependencies from the package.json file.
 3. Install mysql on your machine, if necessary -> https://www.mysql.com/
 4. Set up your own localhost connection. In each of the `.js` files in this repo, update the connection settings as follows:
 
@@ -38,7 +30,7 @@ var connection = mysql.createConnection({
 
 ---
 
-#### Screenshots
+## Screenshots
 
 ### Customer Portal
 
@@ -46,7 +38,7 @@ var connection = mysql.createConnection({
 
 ![customer_portal_01](images/customer_portal_01.jpg)
 
-2. Answer the prompt with the id of the item you want to buy, then the quantity. Bamazon will give you your order total cost and then ask if you want to order another item. Answering `y` will bring up an updated item list, answering `no` will exit the app.
+2. Answer the prompt with the id of the item you want to buy, then the quantity. Bamazon will give you your order total cost and then ask if you want to order another item. Answering `y` will bring up an updated item list, answering `n` will exit the app.
 
 ![customer_portal_02](images/customer_portal_02.jpg)
 
