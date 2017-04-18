@@ -27,3 +27,23 @@ VALUES ("Botanicare CNS17 Bloom Gallon", "Nutrients", 49.95, 15);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Bloombastic 325ml", "Nutrients", 94.95, 11);
+
+--**************--
+
+INSERT INTO departments (department_name, over_head_costs, total_sales)
+VALUES ("Lighting", 4129.60, 0);
+
+INSERT INTO departments (department_name, over_head_costs, total_sales)
+VALUES ("Grow Media", 5742.60, 0);
+
+INSERT INTO departments (department_name, over_head_costs, total_sales)
+VALUES ("Hydroponic Systems", 3324.65, 0);
+
+INSERT INTO departments (department_name, over_head_costs, total_sales)
+VALUES ("Nutrients", 629.55, 0);
+
+INSERT INTO departments (department_name, over_head_costs, total_sales)
+VALUES ("Pumps", 611.88, 0);
+
+INSERT INTO departments (department_name, over_head_costs, total_sales)
+VALUES ("Meters", 279.83, 0);

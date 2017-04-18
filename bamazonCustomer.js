@@ -92,11 +92,27 @@ function customerBuy(){
           setTimeout(customerBuy, 1000);  //recall the CustomerBuy function
 				} else{  //if user order quantity can be fullfilled...
 					stock_quantity -= quantity;  //subtract the users purchase qty from the store stock qty
+
+
+          var totalPrice = quantity * results[0].price;
+					var totalSales = totalPrice + results[0].product_sales;
+					var department = results[0].department_name;
+
+
 					console.log(colors.cyan("Your total price is - $" + (quantity * results[0].price).toFixed(2)));  //print the order total $ to the user
           //connect to db and update the stock_quantity to the post order qty
           connection.query('UPDATE products SET ? WHERE item_id=?', [{stock_quantity: stock_quantity}, itemID], function(err, results){
 						if (err) throw err;
 					});
+
+          connection.query('SELECT total_sales FROM departments WHERE department_name=?', [department], function(err, results){
+            if (err) throw err;
+						var departmentTotal = results[0].total_sales + totalPrice;
+						connection.query('UPDATE departments SET total_sales=? WHERE department_name=?', [departmentTotal, department], function(err, results){
+							if(err) throw err;
+						});
+					});
+
           //nested inquirer to keep the customer ordering
           inquirer.prompt([
             {
