@@ -40,12 +40,12 @@ function showItemTable() {
             if (err) throw err;
             var table = new Table({   //syntax to create table from cli-table npm
                 head: [colors.cyan('id'), colors.cyan('item'), colors.cyan('price'), colors.cyan('quantity')],
-                colWidths: [5, 75, 8, 10]
+                colWidths: [5, 70, 13, 10]
             });
             for (var i = 0; i < results.length; i++){   //loop through all records of the db table
             table.push(   //push each record from the bd table to the cli table
                 [(JSON.parse(JSON.stringify(results))[i]["item_id"]), (JSON.parse(JSON.stringify(results))[i]["product_name"]),
-                (JSON.parse(JSON.stringify(results))[i]["price"]), (JSON.parse(JSON.stringify(results))[i]["stock_quantity"])]);
+                ("$ "+JSON.parse(JSON.stringify(results))[i]["price"]), (JSON.parse(JSON.stringify(results))[i]["stock_quantity"])]);
   			}
         console.log("\n" + table.toString());  //prints the constructed cli-table to screen
         console.log(colors.green('_______________________________________________________________________________________________________'));
@@ -119,4 +119,4 @@ function customerBuy(){
 		});
 }
 
-setTimeout(customerBuy, 1500); //initiall calls the customerBuy function giving time for the list to print.
+setTimeout(customerBuy, 500); //initiall calls the customerBuy function giving time for the list to print.
