@@ -157,6 +157,9 @@ function changeStockQty() {
 
 //function to add a new item to the database
 function addNewItem(){
+  connection.query("SELECT * FROM departments", function(err, results) {
+    if (err) throw err;
+
 	inquirer.prompt([
 			{
 				type: 'input',
@@ -169,12 +172,18 @@ function addNewItem(){
 				name: 'price'
 			},
 			{
-				type: 'input',
-				message: 'Please enter this item\'s department.',
+				type: 'list',
+				message: 'Please choose a department for this item.',
+        choices: function() {
+          var choiceArray = [];
+          for (var i = 0; i < results.length; i++) {
+            choiceArray.push(results[i].department_name);
+          }
+          return choiceArray;
+        },
 				name: 'department_name'
 			},
 			{
-
 				type: 'input',
 				message: 'Please enter initial stock quantity.',
 				name: 'stock_quantity'
@@ -195,7 +204,7 @@ function addNewItem(){
 			}
 
 		});
-
+  });
 };
 
 //function to delete a record from the database
