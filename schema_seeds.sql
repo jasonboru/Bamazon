@@ -57,3 +57,6 @@ VALUES ("Pumps", 611.88, 0);
 
 INSERT INTO departments (department_name, over_head_costs, total_sales)
 VALUES ("Meters", 279.83, 0);
+
+INSERT INTO departments (department_name, over_head_costs, total_sales)
+VALUES ("Fans", 523.32, 0);
