@@ -220,7 +220,7 @@ function deleteItem() {
             inquirer.prompt([
               {
                 type: 'confirm',
-                message: 'Are you sure you want to delete '+colors.yellow(item_name)+'? This will erase this item from the database.',
+                message: '\nAre you sure you want to delete '+colors.yellow(item_name)+'? This will erase this item from the database.',
                 name: 'itemDelete',
                 default: true
               },
