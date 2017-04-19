@@ -60,6 +60,8 @@ var connection = mysql.createConnection({
       * View Low Stock Items
       * Change Stock Levels
       * Add New Item
+      * Delete an item
+      * Exit
 
 ![manager_portal_01](images/manager_portal_01.jpg)
 
@@ -81,7 +83,11 @@ when finished Bamazon will show the updated Item list with the stock change take
 
 5. Choosing _Add New Item_ will prompt the user for the new products name, retail price, department & initial stock quantity. It will then display an updated Item list with the new item included.
 
-![manager_portal_05](images/manager_portal_05.jpg)
+![manager_portal_06](images/manager_portal_06.jpg)
+
+6. Choosing _Delete an Item_ will prompt the user for the item id of the product to delete, then it asks for a confirm since delete is permanent. If `Y` then the delete goes through, if `n` then it takes the user back to the menu.
+
+![manager_portal_07](images/manager_portal_07.jpg)
 
 6. Choosing _Exit_ will exit the application and bring the user back to the command prompt.
 
