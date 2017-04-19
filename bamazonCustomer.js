@@ -84,39 +84,36 @@ function customerBuy(){
         }
 			}
 		]).then(function(answer){
-			var quantity = answer.quantity;
-			var itemID = answer.itemID;
+      var itemID = answer.itemID;            //store the users answer of id # as var itemID
+			var quantity = answer.quantity;			   //store the users answer of purchase qty as var quantity
       //connect to db and select the record from products table with an item_id = the user answer
 			connection.query('SELECT * FROM products WHERE item_id=?', [itemID], function(err, results){
 				if (err) throw err;
-				var stock_quantity = results[0].stock_quantity;
-				if (stock_quantity < quantity) {  //if user orders more than available qty give message
+				var stock_quantity = results[0].stock_quantity;           //store the stock qty of the record queried as var stock_quantity
+				if (stock_quantity < quantity) {                          //if user orders more than available qty give message
 					console.log(colors.red("Sorry, we don't have the stock to fill that request. Please order at or below the quantity listed"));
-          setTimeout(customerBuy, 1000);  //recall the CustomerBuy function
-				} else{  //if user order quantity can be fullfilled...
-					stock_quantity -= quantity;  //subtract the users purchase qty from the store stock qty
+          setTimeout(customerBuy, 1000);                          //recall the CustomerBuy function
+				} else{                                                   //if user order quantity can be fullfilled...
+					stock_quantity -= quantity;                             //subtract the users purchase qty from the store stock qty
 
+          var totalPrice = quantity * results[0].price;           //get and store the totalPrice by multiplying quantity by the price of record queried
+					var totalSales = totalPrice + results[0].product_sales; //get and store the totalSales by adding totalPrice and the product_sales of record queried
+					var department = results[0].department_name;            //store the department of the record queried as var department
 
-          var totalPrice = quantity * results[0].price;
-					var totalSales = totalPrice + results[0].product_sales;
-					var department = results[0].department_name;
+          console.log(colors.cyan("\nYour line item total on this product: $" + (quantity * results[0].price).toFixed(2)));  //print the order total $ to the user
 
-
-
-
-					console.log(colors.cyan("\nYour line item total on this product: $" + (quantity * results[0].price).toFixed(2)));  //print the order total $ to the user
-
-          orderTotal += (parseFloat(totalPrice));
+          orderTotal += (parseFloat(totalPrice));                 //add the product line price to the total order price to use in update message
           console.log(colors.cyan("\nYour order total of all products this session: ") + colors.yellow("$"+orderTotal.toFixed(2))+"\n");
 
           //connect to db and update the stock_quantity to the post order qty
           connection.query('UPDATE products SET ? WHERE item_id=?', [{stock_quantity: stock_quantity}, itemID], function(err, results){
 						if (err) throw err;
 					});
-
+          //connect to db and select total_sales value from the departments table where the name matches the dept_name of the record previously queried
           connection.query('SELECT total_sales FROM departments WHERE department_name=?', [department], function(err, results){
             if (err) throw err;
-						var departmentTotal = results[0].total_sales + totalPrice;
+						var departmentTotal = results[0].total_sales + totalPrice; // add the users total line item sales price to the total_sales value for dept record queried
+            //connect to db and update the total_sales value of the departments table where the name matches the dept_name of the record previously queried
 						connection.query('UPDATE departments SET total_sales=? WHERE department_name=?', [departmentTotal, department], function(err, results){
 							if(err) throw err;
 						});
