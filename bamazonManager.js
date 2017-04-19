@@ -47,7 +47,7 @@ function managerMenu(){
 			switch(results.options){
 				case "View Active Items for Sale":
 				  showItemTable();
-					setTimeout(managerMenu, 1500);
+					setTimeout(managerMenu, 1000);
 					break;
 				case "View Low Stock Items":
 					showLowStock();
@@ -118,7 +118,6 @@ function showLowStock() {
 
 //function to allow user to change stock quantities within the db
 function changeStockQty() {
-
 	inquirer.prompt([
 		{
 		  type: 'input',
@@ -152,11 +151,8 @@ function changeStockQty() {
 							setTimeout(managerMenu, 3000);
 						}
 			});
-
 		});
-
 	});
-
 };
 
 //function to add a new item to the database
@@ -211,31 +207,31 @@ function deleteItem() {
         name: 'product'
       },
   ]).then(function(answer){
-      var product = answer.product;
+      var product = answer.product;  //users answer stored ar var product
+        //connect to db and select the entire record WHERE the id matches users answer
         connection.query('SELECT * FROM products WHERE item_id=?', [product], function(err, res) {
           if (err) throw err;
-          var item_name = String(res[0].product_name);
-          //console.log("********"+item_name);
-
+          var item_name = String(res[0].product_name);  //store the records product name to use in a message later
+            // setup a nested inquirer confirm to make sure the user does not delete without warning
             inquirer.prompt([
               {
                 type: 'confirm',
                 message: '\nAre you sure you want to delete '+colors.yellow(item_name)+'? This will erase this item from the database.',
                 name: 'itemDelete',
-                default: true
+                default: false    //with default as flase a user answer "y" will delete any other key will not
               },
             ]).then(function(data){
-                if (data.itemDelete) {
+                if (data.itemDelete) {  //if the answer to the confirm is true (aka yes) then run....
+                  //connect to db and delete the entire record WHERE the id matches users 1st answer
                   connection.query('DELETE FROM products WHERE item_id=?', [product], function(err, results) {
                       if (err) throw err;
-                        console.log("\nThe item " + colors.yellow(item_name) + " has been "+ colors.red("DELETED"));
-                        console.log("\ngenerating updated item list......\n")
-                        setTimeout(showItemTable, 1000);
-                        setTimeout(managerMenu, 1500);
+                      console.log("\nThe item " + colors.yellow(item_name) + " has been "+ colors.red("DELETED")); //gives the user a message of the item that was deleted
+                      console.log("\ngenerating updated item list......\n");  //continued message
+                      setTimeout(showItemTable, 1000);  //Show an updated Item table to the user post deletion (1 sec after message)
+                      setTimeout(managerMenu, 1500);    //bring up the menu 1.5 sec after message, .5 sec after item list
                   });
-
-                }else {
-                  managerMenu();
+                }else {   //if the users answer to the confirm was not yes then....
+                  managerMenu();  //bring up the menu
                 }
             });
         });
