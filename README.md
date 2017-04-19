@@ -1,6 +1,8 @@
-# UCF Coding Bootcamp Week 12 Project (Node.js & MySQL)
-
 # Bamazon CLI Store App
+
+## UCF Coding Bootcamp Week 12 Project (Node.js & MySQL)
+
+---
 
 ### Overview
 
@@ -38,13 +40,17 @@ var connection = mysql.createConnection({
 
 ![customer_portal_01](images/customer_portal_01.jpg)
 
-2. Answer the prompt with the id of the item you want to buy, then the quantity. Bamazon will give you your order total cost and then ask if you want to order another item. Answering `y` will bring up an updated item list, answering `n` will exit the app.
+2. Answer the prompt with the id of the item you want to buy, then the quantity. Bamazon will give you your order total cost and then ask if you want to order another item. Answering `y` will bring up an updated item list and reprompt for another sale, answering `n` will exit the app.
 
 ![customer_portal_02](images/customer_portal_02.jpg)
 
-3. If the customer tries to order more than the current stock level a message appears and then the customer is asked to re-enter their order request.
+3. If the customer keeps ordering the order total will show the cost of all different products ordered within the session.
 
 ![customer_portal_03](images/customer_portal_03.jpg)
+
+4. If the customer tries to order more than the current stock level a message appears and then the customer is asked to re-enter their order request.
+
+![customer_portal_04](images/customer_portal_04.jpg)
 
 ### Manager Portal
 
@@ -57,7 +63,7 @@ var connection = mysql.createConnection({
 
 ![manager_portal_01](images/manager_portal_01.jpg)
 
-2. Choosing _View Active Items for Sale_ will bring up the updated List of Active items showing id, name, price & quantity of each item in the products table.
+2. Choosing _View Active Items for Sale_ will bring up the updated list of active items showing id, name, price & quantity of each item in the products table.
 
 ![manager_portal_02](images/manager_portal_02.jpg)
 
