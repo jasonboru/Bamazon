@@ -86,6 +86,7 @@ function showItemTable() {
                 [(JSON.parse(JSON.stringify(results))[i]["item_id"]), (JSON.parse(JSON.stringify(results))[i]["product_name"]),
 								("$ "+JSON.parse(JSON.stringify(results))[i]["price"]), (JSON.parse(JSON.stringify(results))[i]["stock_quantity"])]);
   			}
+        console.log(colors.red('_______________________________________________________________________________________________________'));
         console.log("\n" + table.toString());  //prints the constructed cli-table to screen
         console.log(colors.red('_______________________________________________________________________________________________________'));
         console.log("");
@@ -107,6 +108,7 @@ function showLowStock() {
 									("$ "+JSON.parse(JSON.stringify(results))[i]["price"]), (JSON.parse(JSON.stringify(results))[i]["stock_quantity"])]);
 	  		}
 		}
+        console.log(colors.red('_______________________________________________________________________________________________________'));
         console.log("\n" + table.toString());  //prints the constructed cli-table to screen
         console.log(colors.red('_______________________________________________________________________________________________________'));
         console.log("");

@@ -12,6 +12,8 @@ const connection = mysql.createConnection({
     database : 'Bamazon'                    //import schema.sql & schema-seeds.sql to have the Bamazon db.
 });
 
+var orderTotal = 0;
+
 connection.connect(function(err) {          //set up connection
     if (err) throw err;
     //console.log("connected as id " + connection.threadId);
@@ -47,6 +49,7 @@ function showItemTable() {
                 [(JSON.parse(JSON.stringify(results))[i]["item_id"]), (JSON.parse(JSON.stringify(results))[i]["product_name"]),
                 ("$ "+JSON.parse(JSON.stringify(results))[i]["price"]), (JSON.parse(JSON.stringify(results))[i]["stock_quantity"])]);
   			}
+        console.log(colors.green('_______________________________________________________________________________________________________'));
         console.log("\n" + table.toString());  //prints the constructed cli-table to screen
         console.log(colors.green('_______________________________________________________________________________________________________'));
         console.log("");
@@ -99,7 +102,13 @@ function customerBuy(){
 					var department = results[0].department_name;
 
 
-					console.log(colors.cyan("Your total price is - $" + (quantity * results[0].price).toFixed(2)));  //print the order total $ to the user
+
+
+					console.log(colors.cyan("\nYour line item total on this product: $" + (quantity * results[0].price).toFixed(2)));  //print the order total $ to the user
+
+          orderTotal += (parseFloat(totalPrice));
+          console.log(colors.cyan("\nYour order total of all products this session: ") + colors.yellow("$"+orderTotal.toFixed(2))+"\n");
+
           //connect to db and update the stock_quantity to the post order qty
           connection.query('UPDATE products SET ? WHERE item_id=?', [{stock_quantity: stock_quantity}, itemID], function(err, results){
 						if (err) throw err;

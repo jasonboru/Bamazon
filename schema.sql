@@ -19,4 +19,4 @@ CREATE TABLE departments(
 );
 
 ALTER TABLE products
-  ADD product_sales DECIMAL(10,2) NOT NULL
+  ADD product_sales DECIMAL(10,2)

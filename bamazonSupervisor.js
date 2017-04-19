@@ -34,12 +34,39 @@ function logTitle() {
 
 logTitle();
 
+function supervisorMenu(){
+	inquirer.prompt([
+			{
+			  type: 'list',
+			  message: 'Please choose a Bamazon supervisor task:',
+			  choices: ["View Product Sales by Department", "Create New Department", "Exit"],
+			  name: 'options'
+			}
+		]).then(function(results){
+			switch(results.options){
+				case "View Product Sales by Department":
+				  showDeptTable();
+					setTimeout(supervisorMenu, 1000);
+					break;
+				case "Create New Department":
+					addNewDept();
+					break;
+				case 'Exit':
+					console.log("Thank you for using Bamazon")
+					process.exit(0);   //kills the app processes and exits to command prompt
+					break;
+			}
+	});
+};
+
+supervisorMenu();
+
 //Function to print the department table to the user
 function showDeptTable() {
     connection.query('SELECT * FROM departments', function(err, results) {
             if (err) throw err;
             var table = new Table({
-                head: [colors.magenta('id'), colors.magenta('depart name'),
+                head: [colors.magenta('id'), colors.magenta('department name'),
                   colors.magenta('over-head costs'), colors.magenta('total sales'), colors.magenta('total profit')],
                 colWidths: [5, 23, 23, 23, 23]
             });
@@ -49,10 +76,39 @@ function showDeptTable() {
                 ("$ "+JSON.parse(JSON.stringify(results))[i]["over_head_costs"].toFixed(2)), ("$ "+JSON.parse(JSON.stringify(results))[i]["total_sales"].toFixed(2)),
                 ("$ "+parseFloat(results[i].total_sales - results[i].over_head_costs).toFixed(2))]);
   			}
+        console.log(colors.magenta('_______________________________________________________________________________________________________'));
         console.log("\n" + table.toString());
         console.log(colors.magenta('_______________________________________________________________________________________________________'));
         console.log("");
     });
 };
 
-showDeptTable();
+function addNewDept(){
+	inquirer.prompt([
+			{
+				type: 'input',
+				message: 'Please enter the department name.',
+				name: 'dept_name'
+			},
+			{
+				type: 'input',
+				message: 'Please enter the over-head costs.',
+				name: 'costs'
+			}
+		]).then(function(answers){
+			var dept_name = answers.dept_name;
+			var costs = answers.costs;
+      var totalSales = 0;
+      //connect to db and insert the new record with user supplied values
+			connection.query('INSERT INTO departments (department_name, over_head_costs, total_sales) VALUES (?, ?, ?)', [dept_name, costs, totalSales], function(err, results){
+				if(err) throw err;
+			});
+      //once all the answers have been supplied by the user...
+			if (dept_name && costs !== undefined) {
+        setTimeout(showDeptTable, 500);
+				setTimeout(supervisorMenu, 1500);
+			}
+
+		});
+
+};
