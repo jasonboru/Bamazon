@@ -17,6 +17,3 @@ CREATE TABLE departments(
     over_head_costs DECIMAL(10,2) NOT NULL,
     total_sales DECIMAL(10,2) NOT NULL
 );
-
-ALTER TABLE products
-  ADD product_sales DECIMAL(10,2)
