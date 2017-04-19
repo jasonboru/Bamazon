@@ -157,6 +157,7 @@ function changeStockQty() {
 
 //function to add a new item to the database
 function addNewItem(){
+  //connect to db to select the departments table to get department names for inquirer list below
   connection.query("SELECT * FROM departments", function(err, results) {
     if (err) throw err;
 
@@ -174,12 +175,12 @@ function addNewItem(){
 			{
 				type: 'list',
 				message: 'Please choose a department for this item.',
-        choices: function() {
-          var choiceArray = [];
-          for (var i = 0; i < results.length; i++) {
-            choiceArray.push(results[i].department_name);
+        choices: function() {                              //making the choices for departments a function
+          var choiceArray = [];                            //set an empty array
+          for (var i = 0; i < results.length; i++) {       //loop through the results
+            choiceArray.push(results[i].department_name);  //push each existing department name into the array
           }
-          return choiceArray;
+          return choiceArray;                              //return the updated array as the list of choices to the user
         },
 				name: 'department_name'
 			},
