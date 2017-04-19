@@ -130,7 +130,9 @@ The next time the a supervisor pulls up the Department Table the total sales & t
 - - -
 ## Known Issues & TODO Items
 
-  * add a wholesale cost column to the products table which then can be used to place item purchase orders and could also be used to compute/update over_head_costs.
+  * Add shopping cart functionality to the customer portal.
+
+  * Add a wholesale cost column to the products table which then can be used to place item purchase orders and could also be used to compute/update over_head_costs.
 
 - - -
 
